@@ -1,0 +1,58 @@
+
+<table class="racer_table">
+
+  <tr id="row1">
+    <% 20.times do %>
+      <td class="box"></td>
+    <% end %>
+  </tr>
+  <tr id="row2">
+     <% 20.times do %>
+      <td class="box"></td>
+    <% end %>
+ 
+  </tr>
+</table>
+
+<script>
+  $(document).ready(function(){
+   
+    $('tr td:first-child').addClass("active");
+
+ 
+    // q keycode is 81
+    // p keycode is 80
+    $(document).on('keyup', function(event) {
+      if(event.keyCode === 81)
+        update_player_position(1);
+      if(event.keyCode === 80)
+        update_player_position(2)
+    // Detect which key was pressed and call the appropriate function
+    // Google "jquery keyup what key was pressed" if you don't know how
+    });
+
+    function update_player_position(player){
+      
+      var position = $("#row" + player + " td.active").index();
+      $("#row" + player + " td.active").removeClass("active");
+      $("#row" + player + " td").eq(position + 1).addClass("active");
+      check_winner(player);
+    
+    }
+
+    function check_winner(player){
+      var position = $("#row" + player + " td.active").index();
+      if (position + 1 == $("#row" + player + " td.active").length){
+        alert("Player " + player + " has won!");
+        return true;
+      }
+
+    }
+
+  })
+
+
+
+ 
+
+</script>
