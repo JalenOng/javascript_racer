@@ -1,70 +1,64 @@
 
 <h1 id="game" data-game-id=<%= @game.id %>>Javascript Racer</h1>
 
-<p><%= @player1.name %></p>
-<table>
+Player 1: <%= @player1.name %>
+<table class="racer_table">
+
+
   <tr id="row1">
     <% 20.times do %>
       <td class="box"></td>
     <% end %>
   </tr>
+
   <tr id="row2">
-    <% 20.times do |x| %>
+     <% 20.times do %>
       <td class="box"></td>
     <% end %>
+ 
   </tr>
-</table>
-<p><%= @player2.name %></p>
 
+</table>
+Player 2: <%= @player2.name %>
 
 <script>
   $(document).ready(function(){
+   
     $('tr td:first-child').addClass("active");
-    
-    function moveActiveForward(row_index){
-      // find which index
-      var position = $("#row" + row_index + " td.active").index();
-      // get the box at that index and remove active
-      $("#row" + row_index + " td").eq(position).removeClass('active');
-      $("#row" + row_index + " td").eq(position + 1).addClass('active');
-    }
-    function checkIfWon(row_index){
-      var position = $("#row" + row_index + " td.active").index();
-      if(position + 1 === $("#row" + row_index + " td").length){
-        return true
-      }
-    }
-    function submitWinner(player_num){
-      var gameId = $("#game").data("game-id")
-      var loser;
-      player_num === 1 ? loser = 2 : loser = 1;
-      var loserIndex = $("#row" + loser + " td.active").index();
-      $.ajax({
-        type: "PUT",
-        url: "/games/" + gameId,
-        data: {"game_id": gameId, "winner_id": player_num,
-               "loser_index": loserIndex}
-      })
-      .done(function(response){
-        window.location = "/games/" + gameId
-      })
-    }
+
+ 
     // q keycode is 81
     // p keycode is 80
-    $(document).keyup(function(event){
-      if(event.keyCode === 81){
-        // you pressed q
-        moveActiveForward(1);
-      }else if(event.keyCode === 80){
-        moveActiveForward(2);
+    $(document).on('keyup', function(event) {
+      if(event.keyCode === 81)
+        update_player_position(1);
+      if(event.keyCode === 80)
+        update_player_position(2)
+   
+    });
+
+    function update_player_position(player){
+      
+      var position = $("#row" + player + " td.active").index();
+      $("#row" + player + " td.active").removeClass("active");
+      $("#row" + player + " td").eq(position + 1).addClass("active");
+      check_winner(player);
+    
+    }
+
+    function check_winner(player){
+      var position = $("#row" + player + " td.active").index();
+      if (position + 1 == $("#row" + player + " td.active").length){
+        alert("Player " + player + " has won!");
+        return true;
       }
-      if(checkIfWon(1)){
-        alert("Player 1 won!");
-        submitWinner(1);
-      }else if(checkIfWon(2)){
-        alert("Player 2 won!");
-        submitWinner(2);
-      }
-    })
+
+    }
+
   })
+
+
+
+ 
+
 </script>

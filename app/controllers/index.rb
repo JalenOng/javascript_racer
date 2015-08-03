@@ -6,13 +6,20 @@ end
 
 #submit initials
 post '/game/new' do
+	
 
-	#submit initials
+	@player1 = Player.find_or_create_by(name: params[:player1])
+	@player2 = Player.find_or_create_by(name: params[:player2])
+	@game = Game.create()
+	playergame = Playergame.create(player: @player1, game: @game, player_num: 1)
+	playergame = Playergame.create(player: @player2, game: @game, player_num: 2)
 
+	erb :game
 end
 
 #start game
 get '/game/new' do
+
 
  erb :game
 
@@ -25,3 +32,4 @@ get '/game/results' do
 #display results
 
 end
+	

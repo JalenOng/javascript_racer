@@ -1,3 +1,5 @@
 class Player < ActiveRecord::Base
-  # Remember to create a migration!
+	has_many :games, through: :playergames
+	has_many :playergames
+
 end
