@@ -4,5 +4,7 @@ class CreatePlayers < ActiveRecord::Migration
   		p.string :name, limit: 32
   		p.timestamps
   	end
+
+  
   end
 end

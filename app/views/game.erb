@@ -50,15 +50,31 @@ Player 2: <%= @player2.name %>
       var position = $("#row" + player + " td.active").index();
       if (position + 1 == $("#row" + player + " td.active").length){
         alert("Player " + player + " has won!");
+        update_game(player);
         return true;
       }
-
     }
 
-  })
+    function update_game(player){
+      var gameId = $("#game").data("game-id");
+      var loser;
+      player === 1 ? loser = 2 : loser = 1;
+      var loserIndex = $("#row" + loser + " td.active").index();
+    
+      $.ajax({
+        type: "PUT",
+        url: "/games/" + gameId,
+        data: {"game_id": gameId, "player_num": player, "loser_index": loserIndex},
+        success: function(response) {
+          window.location = "/games/" + gameId;
+          },
+        error: function(request, errorType, errorMessage) {
+          alert('Error: ' + errorType + ' with message: ' + errorMessage)}
 
+      });
+   }
 
+})
 
  
-
 </script>
