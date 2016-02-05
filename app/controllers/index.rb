@@ -14,6 +14,7 @@ post '/games/new' do
 	playergame = Playergame.create(player: @player1, game: @game, player_num: 1)
 	playergame = Playergame.create(player: @player2, game: @game, player_num: 2)
 
+
 	erb :game
 end
 

@@ -48,6 +48,7 @@ Player 2: <%= @player2.name %>
 
     function check_winner(player){
       var position = $("#row" + player + " td.active").index();
+
       if (position + 1 == $("#row" + player + " td.active").length){
         alert("Player " + player + " has won!");
         update_game(player);
@@ -66,6 +67,7 @@ Player 2: <%= @player2.name %>
         url: "/games/" + gameId,
         data: {"game_id": gameId, "player_num": player, "loser_index": loserIndex},
         success: function(response) {
+
           window.location = "/games/" + gameId;
           },
         error: function(request, errorType, errorMessage) {
